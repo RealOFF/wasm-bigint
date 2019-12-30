@@ -1,0 +1,9 @@
+language: cpp
+cache:
+  directories:
+  - opt
+dist: bionic
+compiler: gcc
+
+script:
+  - ./compile.sh

@@ -1,0 +1,11 @@
+/opt/**/*
+!/opt/src
+!/opt/src/download.sh
+!/opt/src/*.tar*
+
+*.js
+*.wasm
+
+!/*-worker.js
+!/dist/index.js
+!/dist/workers/native.js

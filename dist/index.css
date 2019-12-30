@@ -1,0 +1,50 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing:content-box;
+}
+html, body{
+    min-width:100%;
+    min-height:100%;
+}
+.content{
+    padding:16px;
+}
+h1{
+    text-align:center;
+    margin-bottom:16px;
+}
+form{
+    display:flex;
+    font:16px monospace;
+    margin-bottom:4px;
+}
+form:last-of-type{
+    margin-bottom:8px;
+}
+form input[type=number]{
+    margin:0 4px;
+}
+form button{
+    padding:2px;
+    margin-left:4px;
+}
+.info{
+    font-size:16px;
+    margin-bottom:8px;
+}
+.info em{
+    font-style:normal;
+    font-weight:700;
+}
+table{
+    font:16px monospace;
+}
+th, td{
+    min-width:130px;
+    padding:2px;
+    border:solid 1px #000;
+}
+th{
+    font-weight:700;
+}
