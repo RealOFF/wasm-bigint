@@ -1,5 +1,7 @@
 let uid = 0;
-let workers = {};
+let workers = [];
+
+const hasNativeSupport = !!window.BigInt;
 
 const onSubmit = e => {
     if (e && e.preventDefault) {
@@ -20,7 +22,13 @@ const onSubmit = e => {
     header.innerText = `${fn}(${value})`;
     row.appendChild(header);
 
-    Object.entries(workers).forEach(([name, w]) => {
+    if (!hasNativeSupport) {
+        const column = document.createElement('td');
+        column.innerText = 'Unsupported';
+        row.appendChild(column);
+    }
+
+    workers.forEach(([name, w]) => {
         const id = `${name}-${uid}`;
 
         const column = document.createElement('td');
@@ -48,13 +56,19 @@ const onSubmit = e => {
 
     let initializedWorkers = 0;
 
-    ['native', 'gmp', 'ttmath'].forEach(el => {
-        const worker = new Worker(`./workers/${el}.js`);
+    const workerNames = ['gmp', 'ttmath'];
+    if (hasNativeSupport) {
+        workerNames.unshift('native');
+    }
+
+    workerNames.forEach(name => {
+        const worker = new Worker(`./workers/${name}.js`);
         worker.onmessage = ({ data: { message, args } }) => {
             switch (message) {
             case 'initialized':
                 ++initializedWorkers;
-                if (initializedWorkers === 3) {
+                if (initializedWorkers === workers.length) {
+                    document.querySelectorAll('form').forEach(f => f.addEventListener('submit', onSubmit));
                     document.querySelectorAll('button').forEach(b => b.disabled = false);
                     onSubmit({
                         target: {
@@ -77,11 +91,6 @@ const onSubmit = e => {
                 console.error(`Unknown message: '${message}'`);
             }
         };
-        workers[el] = worker;
-    });
-
-    requestIdleCallback(() => {
-        const forms = document.querySelectorAll('form');
-        forms.forEach(f => f.addEventListener('submit', onSubmit));
+        workers.push([name, worker]);
     });
 })();
