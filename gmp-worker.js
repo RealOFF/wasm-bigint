@@ -21,4 +21,6 @@ self.onmessage = ({ data: { id, fn, args } }) => {
             toStringTime: performance.now() - t,
         },
     });
+
+    Module.ccall('free_result_str', 'undefined', [], []);
 };

@@ -7,8 +7,9 @@ extern "C" {
 #endif
 
 mpz_t *result = NULL;
+char *result_str = NULL;
 
-mpz_t *allocate_result() {
+mpz_t *allocate_result(void) {
     if (!result) {
         mpz_clear(*result);
         free(result);
@@ -19,18 +20,30 @@ mpz_t *allocate_result() {
 }
 
 EMSCRIPTEN_KEEPALIVE
-char *get_result() {
+char *get_result(void) {
     if (!result) {
         return NULL;
     }
 
-    char *str = mpz_get_str(NULL, 10, *result);
+    if (result_str) {
+        free(result_str);
+    }
+    result_str = (char *) malloc(sizeof(char) * (mpz_sizeinbase(*result, 10) + 2));
+
+    mpz_get_str(result_str, 10, *result);
 
     mpz_clear(*result);
     free(result);
     result = NULL;
 
-    return str;
+    return result_str;
+}
+
+EMSCRIPTEN_KEEPALIVE
+void free_result_str(void) {
+    if (!result_str) return;
+    free(result_str);
+    result_str = NULL;
 }
 
 EMSCRIPTEN_KEEPALIVE
