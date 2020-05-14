@@ -56,32 +56,26 @@ if [[ ! -d "${LIB_PATH}/include/ttmath" ]]; then
 fi
 popd # ${LIB_PATH}/src
 
-# compile wasm modules
-emcc -O3 -o dist/workers/gmp.js gmp.c \
+# compile wasm modules for test fibonacci and factorial
+emcc -O3 -o dist/workers/gmp.js ./src/fib_fact/gmp.c \
 	${LIB_PATH}/lib/libgmp.a \
 	-I ${LIB_PATH}/include \
 	-s WASM=1 \
 	-s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall', 'cwrap']"
 
-emcc --bind -O3 -std=c++14 -o dist/workers/ttmath.js ttmath.cpp \
+emcc --bind -O3 -std=c++14 -o dist/workers/ttmath.js ./src/fib_fact/ttmath.cpp \
 	-I ${LIB_PATH}/include \
 	-s WASM=1 \
 	-s ALLOW_MEMORY_GROWTH=1
 
+# compile wasm modules for test RSA encrypting
+emcc -O3 -o dist/workers/RSA.js ./src/RSA/main.c \
+	${LIB_PATH}/lib/libgmp.a \
+	-I ${LIB_PATH}/include \
+	-s WASM=1 \
+	-s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall', 'cwrap']"
+
 # patch resulting .js-files turning them into workers
 < gmp-worker.js sed '/^import/ d' >> dist/workers/gmp.js
 < ttmath-worker.js sed '/^import/ d' >> dist/workers/ttmath.js
-
-# deploy to gh-pages
-if [[ "${GIT_REMOTE:+1}" ]]; then
-	pushd dist
-	git init
-	git checkout --orphan gh-pages
-	git add .
-	git config user.name "${GIT_NAME:-Travis CI}"
-	git config user.email "${GIT_EMAIL:-travisci@localhost}"
-	git commit -m "gh-pages"
-	git remote add origin "${GIT_REMOTE}"
-	git push -f -u origin gh-pages
-	popd # dist
-fi
+< RSA-worker.js sed '/^import/ d' >> dist/workers/RSA.js
