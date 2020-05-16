@@ -41,11 +41,11 @@ function parseValues(...args) {
 function getArguments(functionName, elements) {
     const argsLength = functionName === 'encrypt' ? 3 : 1;
 
-    return [].slice.call(elements, 0, argsLength).map((el) => el.value);
+    return [].slice.call(elements, 0, argsLength).map((el) => Array.isArray(el.value) ? el.value.slice() : el.value);
 }
 
 function getWorkerArguments(args) {
-    const {length} = args;
+    const {length} = args[0];
     return length > 1 ?
         [args[0], length, ...args.slice(1)] :
         [args[0]];
