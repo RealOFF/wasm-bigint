@@ -26,7 +26,11 @@ form input[type=number]{
     margin:0 4px;
 }
 form button{
-    padding:2px;
+    height: 35px;
+    max-width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-left:4px;
 }
 .info{
@@ -47,4 +51,9 @@ th, td{
 }
 th{
     font-weight:700;
+}
+
+.inputs-row {
+    display: flex;
+    flex-direction: column;
 }

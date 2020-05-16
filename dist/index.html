@@ -23,7 +23,14 @@
             <button type="submit" disabled>Calculate</button>
         </form>
         <form id="encrypt">
-            <label>RSA(<input name="value" type="number" value="30000" min="1">)</label>
+            <label>
+                RSA
+                <textarea rows="5" cols="25" name="value" type="text" placeholder="[1, 2, 3]"></textarea>
+            </label>
+            <div class="inputs-row">
+                <input name="keyQ" type="number" value="13" min="2">
+                <input name="keyP" type="number" value="17" min="3">
+            </div>
             <button type="submit">Calculate</button>
         </form>
         <div class="info">
