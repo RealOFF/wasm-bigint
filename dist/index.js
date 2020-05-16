@@ -4,6 +4,8 @@ const workers = [];
 const SORTED_STUCTURE = {
     factorial: ['fib_fact_js', 'fib_fact_c', 'fib_fact_cpp'],
     fibonacci: ['fib_fact_js', 'fib_fact_c', 'fib_fact_cpp'],
+    naive_factorial: ['fib_fact_js', 'fib_fact_c', 'fib_fact_cpp'],
+    naive_fibonacci: ['fib_fact_js', 'fib_fact_c', 'fib_fact_cpp'],
     encrypt: ['RSA_js', 'RSA_c', ''],
 };
 

@@ -22,6 +22,14 @@
             <label>fibonacci(<input name="value" type="number" value="30000" min="1">)</label>
             <button type="submit" disabled>Calculate</button>
         </form>
+        <form id="naive_factorial">
+            <label>naive_factorial(<input name="value" type="number" value="30000" min="1">)</label>
+            <button type="submit" disabled>Calculate</button>
+        </form>
+        <form id="naive_fibonacci">
+            <label>naive_fibonacci(<input name="value" type="number" value="30000" min="1">)</label>
+            <button type="submit" disabled>Calculate</button>
+        </form>
         <form id="encrypt">
             <label>
                 RSA
@@ -47,5 +55,11 @@
             </tr>
         </table>
     </div>
+
+    <script>
+        const defaultValue = "[1, 2, 3]";
+        const textareas = document.querySelectorAll('textarea');
+        textareas.forEach((el) => el.innerText = defaultValue);
+    </script>
 </body>
 </html>
