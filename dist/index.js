@@ -73,7 +73,7 @@ function onSubmit(e) {
 
     const maxColumnLength = 7;
     
-    header.innerText = `${fn}(${getViewValues(maxColumnLength, args)})`;
+    header.innerText = `${fn}(${getViewValues(maxColumnLength, ...args)})`;
     row.appendChild(header);
 
     SORTED_STUCTURE[fn].forEach((workerName) => {
