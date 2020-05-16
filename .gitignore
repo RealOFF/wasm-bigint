@@ -3,8 +3,11 @@
 !/opt/src/download.sh
 !/opt/src/*.tar*
 
-*.js
-*.wasm
+*_c.js
+*_c.wasm
+*_cpp.js
+*_cpp.wasm
+
 
 !/*-worker.js
 !/dist/index.js
