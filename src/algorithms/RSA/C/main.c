@@ -2,46 +2,6 @@
 #include <gmp.h>
 #include <stdlib.h>
 
-mpz_t *result = NULL;
-char *result_str = NULL;
-
-mpz_t *allocate_result(void) {
-    if (!result) {
-        mpz_clear(*result);
-        free(result);
-    }
-    result = (mpz_t *) malloc(sizeof(mpz_t));
-    mpz_init(*result);
-    return result;
-}
-
-EMSCRIPTEN_KEEPALIVE
-char *get_result(void) {
-    if (!result) {
-        return NULL;
-    }
-
-    if (result_str) {
-        free(result_str);
-    }
-    result_str = (char *) malloc(sizeof(char) * (mpz_sizeinbase(*result, 10) + 2));
-
-    mpz_get_str(result_str, 10, *result);
-
-    mpz_clear(*result);
-    free(result);
-    result = NULL;
-
-    return result_str;
-}
-
-EMSCRIPTEN_KEEPALIVE
-void free_result_str(void) {
-    if (!result_str) return;
-    free(result_str);
-    result_str = NULL;
-}
-
 long calc_d(int m) {
   long d = m - 1;
  
@@ -95,7 +55,6 @@ void encrypt_rsa(long* text, long length, long e, long n) {
 
 EMSCRIPTEN_KEEPALIVE
 long encrypt(long* text, long length, long p, long q) {
-  allocate_result();
   long n = p * q; // public
   long m = (p - 1) * (q - 1);
   long d = calc_d(m);

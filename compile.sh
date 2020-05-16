@@ -57,25 +57,25 @@ fi
 popd # ${LIB_PATH}/src
 
 # compile wasm modules for test fibonacci and factorial
-emcc -O3 -o dist/workers/gmp.js ./src/fib_fact/gmp.c \
+emcc -O3 -o dist/workers/fib_fact_c.js ./src/algorithms/fib_fact/C/main.c \
 	${LIB_PATH}/lib/libgmp.a \
 	-I ${LIB_PATH}/include \
 	-s WASM=1 \
 	-s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall', 'cwrap']"
 
-emcc --bind -O3 -std=c++14 -o dist/workers/ttmath.js ./src/fib_fact/ttmath.cpp \
+emcc --bind -O3 -std=c++14 -o dist/workers/fib_fact_cpp.js ./src/algorithms/fib_fact/CPP/main.cpp \
 	-I ${LIB_PATH}/include \
 	-s WASM=1 \
 	-s ALLOW_MEMORY_GROWTH=1
 
 # compile wasm modules for test RSA encrypting
-emcc -O3 -o dist/workers/RSA.js ./src/RSA/main.c \
+emcc -O3 -o dist/workers/RSA_c.js ./src/algorithms/RSA/C/main.c \
 	${LIB_PATH}/lib/libgmp.a \
 	-I ${LIB_PATH}/include \
 	-s WASM=1 \
 	-s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall', 'cwrap']"
 
 # patch resulting .js-files turning them into workers
-< gmp-worker.js sed '/^import/ d' >> dist/workers/gmp.js
-< ttmath-worker.js sed '/^import/ d' >> dist/workers/ttmath.js
-< RSA-worker.js sed '/^import/ d' >> dist/workers/RSA.js
+< ./src/algorithms/fib_fact/C/worker.js sed '/^import/ d' >> dist/workers/fib_fact_c.js
+< ./src/algorithms/fib_fact/CPP/worker.js sed '/^import/ d' >> dist/workers/fib_fact_cpp.js
+< ./src/algorithms/RSA/C/worker.js sed '/^import/ d' >> dist/workers/RSA_c.js
