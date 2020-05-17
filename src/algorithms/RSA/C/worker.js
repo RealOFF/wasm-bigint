@@ -9,8 +9,8 @@ self.onmessage = ({ data: { id, fn, args } }) => {
     const [myArray, length, keyQ, keyP] = args;
     const data = new Int32Array(myArray);
     const nDataBytes = data.length * data.BYTES_PER_ELEMENT;
-    const p = Module.ccall('create_buffer', 'number', ['number', 'number'], [nDataBytes]);
-
+    const p = Module.ccall('create_buffer', 'number', ['number', 'number'], [nDataBytes, 1]);
+    
     const dataHeap = new Uint8Array(Module.HEAPU8.buffer, p, nDataBytes);
     dataHeap.set(new Uint8Array(data.buffer));
 
@@ -30,5 +30,5 @@ self.onmessage = ({ data: { id, fn, args } }) => {
         },
     });
 
-    Module.ccall('destroy_buffer', '', ['number'], p);
+    Module.ccall('destroy_buffer', '', ['number'], [p]);
 };

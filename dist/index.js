@@ -7,6 +7,7 @@ const SORTED_STUCTURE = {
     naive_factorial: ['fib_fact_js', 'fib_fact_c', 'fib_fact_cpp'],
     naive_fibonacci: ['fib_fact_js', 'fib_fact_c', 'fib_fact_cpp'],
     encrypt: ['RSA_js', 'RSA_c', ''],
+    naive_encrypt: ['RSA_js', 'RSA_c', ''],
 };
 
 function getViewValues(maxColumnLength, ...args) {
@@ -39,7 +40,7 @@ function parseValues(...args) {
 
 
 function getArguments(functionName, elements) {
-    const argsLength = functionName === 'encrypt' ? 3 : 1;
+    const argsLength = functionName.endsWith('encrypt') ? 3 : 1;
 
     return [].slice.call(elements, 0, argsLength).map((el) => Array.isArray(el.value) ? el.value.slice() : el.value);
 }

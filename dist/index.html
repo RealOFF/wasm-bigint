@@ -41,6 +41,17 @@
             </div>
             <button type="submit">Calculate</button>
         </form>
+        <form id="naive_encrypt">
+            <label>
+                naive_encrypt RSA
+                <textarea rows="5" cols="25" name="value" type="text" placeholder="[1, 2, 3]"></textarea>
+            </label>
+            <div class="inputs-row">
+                <input name="keyQ" type="number" value="13" min="2">
+                <input name="keyP" type="number" value="17" min="3">
+            </div>
+            <button type="submit">Calculate</button>
+        </form>
         <div class="info">
             <p>If you use Firefox, temporarily disable <code>privacy.resistFingerprinting</code> and <code>privacy.reduceTimerPrecision</code> for precise results from calls to <code>performance.now()</code>.</p>
             <p>The number in parentheses is how long it takes to convert the result to a string.</p>
