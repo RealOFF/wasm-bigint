@@ -26,15 +26,13 @@ function calc_d(m) {
       return e;
   }
 
-  function powerMod(base, exponent, modulus) {
-    if (modulus === 1) return 0;
-    var result = 1;
-    base = base % modulus;
-    while (exponent > 0) {
-        if (exponent % 2 === 1)  //odd number
-            result = (result * base) % modulus;
-        exponent = exponent >> 1; //divide by 2
-        base = (base * base) % modulus;
+  function powerMod(base, exp, modulus) {
+    base %= modulus;
+    let result = 1;
+    while (exp > 0) {
+      if (exp & 1) result = (result * base) % modulus;
+      base = (base * base) % modulus;
+      exp >>= 1;
     }
     return result;
   }
