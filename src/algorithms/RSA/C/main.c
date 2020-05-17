@@ -63,7 +63,7 @@ long encrypt(long* text, long length, long p, long q) {
   return i;
 }
 
-long calc_symbol_code_naive(long index, long e, long n) {
+void encrypt_rsa_naive(long* text, long length, long e, long n) {
   mpz_t big_temp;
   mpz_t big_pow;
   mpz_t big_whole_part;
@@ -73,27 +73,21 @@ long calc_symbol_code_naive(long index, long e, long n) {
   mpz_init(big_pow);
   mpz_init(big_whole_part);
   mpz_init(big_mod);
+  for (long i = 0; i < length; i++)
+  {
+    mpz_set_ui(big_temp, text[i]);
 
-  mpz_set_ui(big_temp, index);
+    mpz_pow_ui(big_pow, big_temp, e);
+    mpz_div_ui(big_whole_part, big_pow, n);
+    mpz_mul_ui(big_temp, big_whole_part, n);
+    mpz_sub(big_mod, big_pow, big_temp);
 
-  mpz_pow_ui(big_pow, big_temp, e);
-  mpz_div_ui(big_whole_part, big_pow, n);
-  mpz_mul_ui(big_temp, big_whole_part, n);
-  mpz_sub(big_mod, big_pow, big_temp);
-
-  long result_long = mpz_get_ui(big_mod);
+    text[i] = mpz_get_ui(big_mod);
+  }
   mpz_clear(big_temp);
   mpz_clear(big_pow);
   mpz_clear(big_whole_part);
   mpz_clear(big_mod);
-  return result_long;
-}
-
-void encrypt_rsa_naive(long* text, long length, long e, long n) {
-    for (long i = 0; i < length; i++)
-    {
-        text[i] = calc_symbol_code_naive(text[i], e, n);
-    }
 }
 
 EMSCRIPTEN_KEEPALIVE
