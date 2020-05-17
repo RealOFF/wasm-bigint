@@ -66,11 +66,13 @@ long encrypt(long* text, long length, long p, long q) {
 long calc_symbol_code_naive(long index, long e, long n) {
   mpz_t big_temp;
   mpz_t big_pow;
-  mpz_t big_mod;
   mpz_t big_whole_part;
+  mpz_t big_mod;
 
   mpz_init(big_temp);
   mpz_init(big_pow);
+  mpz_init(big_whole_part);
+  mpz_init(big_mod);
 
   mpz_set_ui(big_temp, index);
 
@@ -80,6 +82,10 @@ long calc_symbol_code_naive(long index, long e, long n) {
   mpz_sub(big_mod, big_pow, big_temp);
 
   long result_long = mpz_get_ui(big_mod);
+  mpz_clear(big_temp);
+  mpz_clear(big_pow);
+  mpz_clear(big_whole_part);
+  mpz_clear(big_mod);
   return result_long;
 }
 
